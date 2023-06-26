@@ -1,26 +1,36 @@
 package ru.job4j.iterator;
 
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.*;
 
 class ArrayItTest {
+
     @Test
     void whenMultiCallHasNextThenTrue() {
-        ArrayIt it = new ArrayIt(
+        ArrayIt iterator = new ArrayIt(
                 new int[] {1, 2, 3}
         );
-        boolean rsl = it.hasNext();
-        assertThat(rsl).isTrue();
+        boolean result = iterator.hasNext();
+        assertThat(result).isTrue();
         assertThat(true).isTrue();
     }
 
     @Test
     void whenReadSequence() {
-        ArrayIt it = new ArrayIt(
+        ArrayIt iterator = new ArrayIt(
                 new int[] {1, 2, 3}
         );
-        assertThat(it.next()).isEqualTo(1);
-        assertThat(it.next()).isEqualTo(2);
-        assertThat(it.next()).isEqualTo(3);
+        assertThat(iterator.next()).isEqualTo(1);
+        assertThat(iterator.next()).isEqualTo(2);
+        assertThat(iterator.next()).isEqualTo(3);
+    }
+
+    @Test
+    public void whenNextFromEmpty() {
+        ArrayIt iterator = new ArrayIt(
+                new int[] {}
+        );
+        iterator.next();
     }
 }
