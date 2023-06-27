@@ -1,6 +1,5 @@
 package ru.job4j.iterator;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -30,15 +29,12 @@ class ArrayItTest {
     }
 
     @Test
-    public void whenNextFromEmpty() {
-        try {
-            ArrayIt iterator = new ArrayIt(
-                    new int[] {}
-            );
-            iterator.next();
-        } catch (NoSuchElementException thrown) {
-            Assertions.assertNotEquals("", thrown.getMessage());
-        }
+    void whenNextFromEmpty() {
+        BackwardArrayIt iterator = new BackwardArrayIt(
+                new int[] {}
+        );
+        assertThatThrownBy(iterator::next)
+                .isInstanceOf(NoSuchElementException.class);
     }
 
 }
