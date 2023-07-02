@@ -13,23 +13,10 @@ public class User {
         this.birthday = birthday;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        System.out.println("equals");
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        User user = (User) o;
-        return children == user.children && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday);
-    }
-
+    @SuppressWarnings("checkstyle:EqualsHashCode")
     @Override
     public int hashCode() {
-        System.out.println("hashCode");
-        return Objects.hash(name, children, birthday);
+        return super.hashCode();
     }
 
     public static void main(String[] args) {
