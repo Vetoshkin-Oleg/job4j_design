@@ -1,9 +1,6 @@
 package ru.job4j.map;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class User {
     private final String name;
@@ -16,17 +13,25 @@ public class User {
         this.birthday = birthday;
     }
 
+    @SuppressWarnings("checkstyle:EqualsHashCode")
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public static void main(String[] args) {
-        User user1 = new User("Ivan", 5,
-                new GregorianCalendar(2017, Calendar.JANUARY, 25));
-        User user2 = new User("Ivan", 5,
-                new GregorianCalendar(2017, Calendar.JANUARY, 25));
+        Calendar calendar = new GregorianCalendar(2017, Calendar.JANUARY, 25);
+        calendar.set(Calendar.HOUR, 19);
+        calendar.set(Calendar.MINUTE, 42);
+        calendar.set(Calendar.SECOND, 12);
+        calendar.set(Calendar.MILLISECOND, 37);
+
+        User user1 = new User("Ivan", 5, calendar);
+        User user2 = new User("Ivan", 5, calendar);
+
         Map<User, Object> map = new HashMap<>();
         map.put(user1, new Object());
         map.put(user2, new Object());
-
-        map.entrySet()
-                .forEach(System.out::println);
 
         int hashCode1 = user1.hashCode();
         int hashCode2 = user2.hashCode();
@@ -35,12 +40,11 @@ public class User {
         int bucket1 = hash1 & 15;
         int bucket2 = hash2 & 15;
 
-        for (int i = 0; i < 2147483647; i++) {
-            if (bucket1 == bucket2) {
-                System.out.println(bucket1 + " bucket1");
-                System.out.println(bucket2 + " bucket2");
-            }
-        }
+        map.entrySet()
+                .forEach(System.out::println);
+
+        System.out.println(bucket1 + " bucket1");
+        System.out.println(bucket2 + " bucket2");
 
     }
 }
