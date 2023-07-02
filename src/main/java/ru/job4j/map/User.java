@@ -13,10 +13,19 @@ public class User {
         this.birthday = birthday;
     }
 
-    @SuppressWarnings("checkstyle:EqualsHashCode")
+    @Override
+    public boolean equals(Object o) {
+        System.out.println("equals");
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return children == user.children && Objects.equals(name, user.name) && Objects.equals(birthday, user.birthday);
+    }
+
     @Override
     public int hashCode() {
-        return super.hashCode();
+        System.out.println("hashCode");
+        return Objects.hash(name, children, birthday);
     }
 
     public static void main(String[] args) {
@@ -35,6 +44,8 @@ public class User {
 
         int hashCode1 = user1.hashCode();
         int hashCode2 = user2.hashCode();
+        System.out.println(hashCode1 + " hashCode1");
+        System.out.println(hashCode2 + " hashCode2");
         int hash1 = hashCode1 ^ (hashCode1 >>> 16);
         int hash2 = hashCode2 ^ (hashCode2 >>> 16);
         int bucket1 = hash1 & 15;
