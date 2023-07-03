@@ -13,11 +13,11 @@ public class User {
         this.birthday = birthday;
     }
 
-    @SuppressWarnings("checkstyle:EqualsHashCode")
+    /*@SuppressWarnings("checkstyle:EqualsHashCode")
     @Override
     public int hashCode() {
         return super.hashCode();
-    }
+    }*/
 
     public static void main(String[] args) {
         Calendar calendar = new GregorianCalendar(2017, Calendar.JANUARY, 25);
