@@ -11,7 +11,7 @@ public class LogFilter {
                     .filter(s1 -> s1
                             .startsWith("404", s1.lastIndexOf(' ') - 3))
                     .toList();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return result;
