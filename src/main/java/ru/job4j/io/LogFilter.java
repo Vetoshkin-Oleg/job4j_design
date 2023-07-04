@@ -24,7 +24,7 @@ public class LogFilter {
                 ))) {
             log
                     .forEach(out::println);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
