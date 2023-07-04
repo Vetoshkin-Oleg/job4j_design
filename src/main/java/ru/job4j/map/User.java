@@ -13,11 +13,15 @@ public class User {
         this.birthday = birthday;
     }
 
-    /*@SuppressWarnings("checkstyle:EqualsHashCode")
+    @SuppressWarnings("checkstyle:EqualsHashCode")
     @Override
     public int hashCode() {
-        return super.hashCode();
-    }*/
+        int result = 17;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + children;
+        result = 31 * result + birthday.hashCode();
+        return result;
+    }
 
     public static void main(String[] args) {
         Calendar calendar = new GregorianCalendar(2017, Calendar.JANUARY, 25);
@@ -33,12 +37,8 @@ public class User {
         map.put(user1, new Object());
         map.put(user2, new Object());
 
-        int hashCode1 = user1.hashCode();
-        int hashCode2 = user2.hashCode();
-        System.out.println(hashCode1 + " hashCode1");
-        System.out.println(hashCode2 + " hashCode2");
-        int hash1 = hashCode1 ^ (hashCode1 >>> 16);
-        int hash2 = hashCode2 ^ (hashCode2 >>> 16);
+        int hash1 = user1.hashCode() ^ (user1.hashCode() >>> 16);
+        int hash2 = user2.hashCode() ^ (user2.hashCode() >>> 16);
         int bucket1 = hash1 & 15;
         int bucket2 = hash2 & 15;
 
@@ -47,6 +47,5 @@ public class User {
 
         System.out.println(bucket1 + " bucket1");
         System.out.println(bucket2 + " bucket2");
-
     }
 }
