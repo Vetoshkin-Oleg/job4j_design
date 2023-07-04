@@ -13,7 +13,20 @@ public class User {
         this.birthday = birthday;
     }
 
-    @SuppressWarnings("checkstyle:EqualsHashCode")
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return (name.equals(user.name)
+        && (children == user.children)
+        && birthday.getTimeInMillis() == user.birthday.getTimeInMillis());
+    }
+
     @Override
     public int hashCode() {
         int result = 17;
@@ -47,5 +60,6 @@ public class User {
 
         System.out.println(bucket1 + " bucket1");
         System.out.println(bucket2 + " bucket2");
+        System.out.println("user1 и user2 одинаковы: " + (user1.equals(user2)));
     }
 }
