@@ -1,0 +1,8 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+<porsche isCabriolet="true" engineVolume="2497" fuel="Gasoline">
+    <engine engine="MDJ.UA, MDJ.UB, MDP.HB"/>
+    <descriptions>
+        <description>Horizontally opposed, 4-cylinder</description>
+        <description>Turbine</description>
+    </descriptions>
+</porsche>
