@@ -1,13 +1,23 @@
 package ru.job4j.serialization.xml;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 
+@XmlRootElement(name = "porsche")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Porsche {
-    private final boolean isCabriolet;
-    private final int engineVolume;
-    private final String fuel;
-    private final Engine engine;
-    private final String[] description;
+    @XmlAttribute
+    private boolean isCabriolet;
+    private int engineVolume;
+    private String fuel;
+    private Engine engine;
+
+    @XmlElementWrapper(name = "descriptions")
+    @XmlElement(name = "description")
+    private String[] description;
+
+    public Porsche() {
+    }
 
     public Porsche(boolean isCabriolet, int engineVolume, String fuel,
                    Engine engine, String[] description) {

@@ -1,7 +1,15 @@
 package ru.job4j.serialization.xml;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "engine")
 public class Engine {
-    private final String name;
+    @XmlAttribute
+    private String name;
+
+    public Engine() {
+    }
 
     public Engine(String name) {
         this.name = name;
