@@ -24,4 +24,12 @@ public class Person {
                 + ", statuses=" + Arrays.toString(statuses)
                 + '}';
     }
+
+    public boolean getSex() {
+        return sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
 }
