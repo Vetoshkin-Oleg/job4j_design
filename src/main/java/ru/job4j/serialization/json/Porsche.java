@@ -28,4 +28,16 @@ public class Porsche {
                 + ", description=" + Arrays.toString(description)
                 + '}';
     }
+
+    public boolean isCabriolet() {
+        return isCabriolet;
+    }
+
+    public int getEngineVolume() {
+        return engineVolume;
+    }
+
+    public String getFuel() {
+        return fuel;
+    }
 }

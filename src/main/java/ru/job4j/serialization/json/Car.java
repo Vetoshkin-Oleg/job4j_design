@@ -1,20 +1,38 @@
 package ru.job4j.serialization.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Car {
     public static void main(String[] args) {
-        final Porsche porsche = new Porsche(true, 2497, "Gasoline",
-                new Engine("MDJ.UA, MDJ.UB, MDP.HB"),
+
+        /* JSONObject из json-строки строки */
+        JSONObject jsonEngine = new JSONObject("{\"engine\":\"MDJ.UA, MDJ.UB, MDP.HB\"}");
+
+        /* JSONArray из ArrayList */
+        List<String> list = new ArrayList<>();
+        list.add("Horizontally opposed, 4-cylinder");
+        list.add("Turbine");
+        JSONArray jsonDescriptions = new JSONArray(list);
+
+        /* JSONObject напрямую методом put */
+        Porsche porsche = new Porsche(true, 2497,
+                "Gasoline", new Engine("MDJ.UA, MDJ.UB, MDP.HB"),
                 new String[] {"Horizontally opposed, 4-cylinder", "Turbine"});
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("isCabriolet", porsche.isCabriolet());
+        jsonObject.put("engineVolume", porsche.getEngineVolume());
+        jsonObject.put("fuel", porsche.getFuel());
+        jsonObject.put("engine", jsonEngine);
+        jsonObject.put("description", jsonDescriptions);
 
-        final Gson gson = new GsonBuilder().create();
+        /* Выведем результат в консоль */
+        System.out.println(jsonObject);
 
-        String json = gson.toJson(porsche);
-        System.out.println(json);
-
-        final Porsche porscheMod = gson.fromJson(json, Porsche.class);
-        System.out.println(porscheMod);
+        /* Преобразуем объект porsche в json-строку */
+        System.out.println(new JSONObject(porsche));
     }
 }
