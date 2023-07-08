@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" modified="2023-07-08T05:04:14.854Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" version="21.6.1" etag="aGlG7wpSM9Qn2Xd4YJo1" type="device">
+  <diagram id="lRWgpxw0QDNn3ycztaCx" name="Страница 1">
+    <mxGraphModel dx="662" dy="392" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iLvUxKXFJkWDk9qC2zKE-3" value="Customers" style="text;strokeColor=default;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="120" y="160" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iLvUxKXFJkWDk9qC2zKE-7" value="id: serial&lt;br&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;name: varchar(255)&lt;br&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;phone: varchar(255)&lt;br&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;discountCard: varchar(255)" style="text;strokeColor=default;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="120" y="190" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="iLvUxKXFJkWDk9qC2zKE-8" value="Product" style="text;strokeColor=default;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="480" y="160" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iLvUxKXFJkWDk9qC2zKE-9" value="id: serial&lt;br&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;name: varchar(255)&lt;br&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;price: money&lt;br&gt;&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;customers_id: int" style="text;strokeColor=default;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=12;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="480" y="190" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="iLvUxKXFJkWDk9qC2zKE-10" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;endArrow=classic;html=1;curved=0;rounded=0;endSize=8;startSize=8;exitX=-0.062;exitY=0.846;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.988;entryY=0.147;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="iLvUxKXFJkWDk9qC2zKE-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="479.99999999999994" y="299.98" as="sourcePoint" />
+            <mxPoint x="369.92" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iLvUxKXFJkWDk9qC2zKE-11" value="one-to-one" style="text;strokeColor=none;fillColor=none;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontSize=20;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="300" y="90" width="160" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
