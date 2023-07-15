@@ -7,7 +7,7 @@ create table product(
     id serial primary key,
     name text,
     expired_date date,
-    price money,
+    price float,
     type_id int references type(id)
 );
 
@@ -110,8 +110,55 @@ insert into product(name, expired_date, price, type_id)
 insert into product(name, expired_date, price, type_id)
  values ('Мороженое NESTLE', '2023-08-14', 69.99, 5);
 insert into product(name, expired_date, price, type_id)
- values ('Мороженое ЗОЛОТОЙ СТАНДАРТ', '2023-08-14', 74.99, 5);
+ values ('МОРОженое ЗОЛОТОЙ СТАНДАРТ', '2023-08-14', 74.99, 5);
 insert into product(name, expired_date, price, type_id)
  values ('Мороженое OREO', '2023-08-14', 79.99, 5);
 insert into product(name, expired_date, price, type_id)
  values ('МороЖЕНОЕ SNICKERS', '2023-08-14', 119.99, 5);
+
+/*1. Написать запрос получение всех продуктов с типом "СЫР"*/
+select * from type t
+join product p
+on t.id = p.type_id
+where upper(t.name) = 'СЫР';
+
+/*2. Написать запрос получения всех продуктов, у кого в имени есть слово "мороженое"*/
+select * from product p
+where lower(p.name) like '%мороженое%';
+
+/*3. Написать запрос, который выводит все продукты, срок годности которых уже истек*/
+select * from product p
+where current_date > p.expired_date;
+
+/*4. Написать запрос, который выводит самый дорогой продукт.
+Запрос должен быть универсальный и находить все продукты с максимальной ценой*/
+select * from product
+where product.price = (select max(product.price) from product);
+
+/*5. Написать запрос, который выводит для каждого типа количество продуктов к нему принадлежащих.
+В виде имя_типа, количество*/
+select t.name, count(*) from product p
+join type t
+on t.id = p.type_id
+group by t.name;
+
+/*6. Написать запрос получение всех продуктов с типом "СЫР" и "МОЛОКО"*/
+select * from type t
+join product p
+on t.id = p.type_id
+where upper(t.name) in ('СЫР', 'МОЛОКО');
+
+/*7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.
+Под количеством подразумевается количество продуктов определенного типа.
+Например, если есть тип "СЫР" и продукты "Сыр плавленный" и "Сыр моцарелла",
+которые ему принадлежат, то количество продуктов типа "СЫР" будет 2.*/
+select t.name, count(*) from product p
+join type t
+on t.id = p.type_id
+group by t.name
+having count(*) < 10;
+
+/*8. Вывести все продукты и их тип.*/
+select p.name, t.name from type t
+join product p
+on t.id = p.type_id;
