@@ -20,10 +20,11 @@ public class Config {
         try (BufferedReader reader = new BufferedReader(new FileReader(this.path)))  {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.trim().startsWith("#") || line.isBlank()) {
+                line = line.trim();
+                if (line.startsWith("#") || line.isBlank()) {
                     continue;
                 } else if (checkLine(line)) {
-                    String[] temp = splitLine(line);
+                    String[] temp = line.split("=", 2);
                     values.put(temp[0], temp[1]);
                 }
             }
@@ -33,7 +34,6 @@ public class Config {
     }
 
     public boolean checkLine(String line) {
-        line = line.trim();
         if (!line.contains("=")) {
             throw new IllegalArgumentException("No equal sign!");
         }
@@ -48,17 +48,6 @@ public class Config {
         }
         return true;
     }
-
-    public String[] splitLine(String line) {
-        String[] temp = new String[2];
-        if (line.trim().indexOf("=") == line.trim().lastIndexOf("=")) {
-            temp = line.split("=");
-        } else {
-            temp[0] = line.substring(0, line.indexOf("="));
-            temp[1] = line.substring(line.indexOf("=") + 1);
-        }
-        return temp;
-     }
 
     public String value(String key) {
         return values.get(key);
