@@ -25,7 +25,7 @@ public class Analysis {
         }
 
         try (PrintWriter writer = new PrintWriter(target)) {
-            writer.println(result);
+            writer.print(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
