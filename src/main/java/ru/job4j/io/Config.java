@@ -20,9 +20,7 @@ public class Config {
         try (BufferedReader reader = new BufferedReader(new FileReader(this.path)))  {
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.trim().startsWith("#")) {
-                    continue;
-                } else if (line.trim().length() == 0) {
+                if (line.trim().startsWith("#") || line.isBlank()) {
                     continue;
                 } else if (checkLine(line)) {
                     String[] temp = splitLine(line);
@@ -35,17 +33,18 @@ public class Config {
     }
 
     public boolean checkLine(String line) {
+        line = line.trim();
         if (!line.contains("=")) {
             throw new IllegalArgumentException("No equal sign!");
-        } else if (line.trim().startsWith("=")
-                && (line.length() != 1)) {
-            throw new IllegalArgumentException("No key!");
-        } else if (line.trim().endsWith("=")
-                && (line.trim().indexOf("=") == line.trim().lastIndexOf("="))
-                && line.trim().length() != 1) {
-            throw new IllegalArgumentException("No value!");
-        } else if (line.trim().length() == 1) {
+        }
+        if (line.length() == 1) {
             throw new IllegalArgumentException("No key and value!");
+        }
+        if (line.startsWith("=")) {
+            throw new IllegalArgumentException("No key!");
+        }
+        if (line.endsWith("=") && line.indexOf("=") == line.lastIndexOf("=")) {
+            throw new IllegalArgumentException("No value!");
         }
         return true;
     }
