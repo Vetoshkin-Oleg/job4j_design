@@ -19,7 +19,8 @@ public class Analysis {
                     isStart = false;
                 }
             }
-            result = stringBuilder.substring(0, stringBuilder.length() - 2);
+            result = stringBuilder.substring(0,
+                    stringBuilder.length() - System.lineSeparator().length());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,7 +48,8 @@ public class Analysis {
                     isStart = false;
                 }
             }
-            result = stringBuilder.substring(0, stringBuilder.length() - 2);
+            result = stringBuilder.substring(0,
+                    stringBuilder.length() - System.lineSeparator().length());
         } catch (IOException e) {
             e.printStackTrace();
         }
