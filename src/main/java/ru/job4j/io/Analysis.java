@@ -32,30 +32,6 @@ public class Analysis {
         }
     }
 
-    public String unavailable(String source) {
-        String result = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        boolean isStart = false;
-        try (BufferedReader reader = new BufferedReader(new FileReader(source)))  {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (!isStart && checkLine(line)) {
-                    stringBuilder.append(line.substring(4)).append(";");
-                    isStart = true;
-                } else if (isStart && !checkLine(line)) {
-                    stringBuilder.append(line.substring(4)).append(";");
-                    stringBuilder.append(System.lineSeparator());
-                    isStart = false;
-                }
-            }
-            result = stringBuilder.substring(0,
-                    stringBuilder.length() - System.lineSeparator().length());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     public boolean checkLine(String line) {
         return "400".equals(line.substring(0, 3)) || "500".equals(line.substring(0, 3));
     }
