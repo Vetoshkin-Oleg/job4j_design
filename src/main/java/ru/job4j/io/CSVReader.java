@@ -1,4 +1,3 @@
-/*
 package ru.job4j.io;
 
 import java.io.FileInputStream;
@@ -13,10 +12,9 @@ public class CSVReader {
     }
 
     public static void main(String[] args) throws Exception {
-        */
-/* здесь добавьте валидацию принятых параметров*//*
+ /*здесь добавьте валидацию принятых параметров*/
 
         ArgsName argsName = ArgsName.of(args);
         handle(argsName);
     }
-}*/
+}
