@@ -6,7 +6,8 @@ package ru.job4j.ood.lsp;
 public class Shop {
     public double money;
     public double bonus = 0;
-    public void loyalty (double money) {
+
+    public void loyalty(double money) {
         if (money > 1000) {
             bonus = 100;
         }
