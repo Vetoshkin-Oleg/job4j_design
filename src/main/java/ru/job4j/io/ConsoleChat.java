@@ -24,21 +24,19 @@ public class ConsoleChat {
         Scanner scanner = new Scanner(System.in);
         String title = scanner.nextLine();
         boolean pause = false;
-        while (!title.equals(ConsoleChat.OUT)) {
+        while (!OUT.equals(title)) {
             log.add(title);
             int index = (int) (Math.random() * phraseBot.size());
             switch (title) {
-                case ConsoleChat.STOP -> {
+                case STOP -> {
                     pause = true;
-                    break;
                 }
-                case ConsoleChat.CONTINUE -> {
+                case CONTINUE -> {
                     pause = false;
                     if (!pause) {
                         System.out.println(phraseBot.get(index));
                     }
                     log.add(phraseBot.get(index));
-                    break;
                 }
                 default -> {
                     if (!pause) {
