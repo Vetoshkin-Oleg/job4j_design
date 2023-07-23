@@ -17,15 +17,14 @@ public class ArgsName {
     private void parse(String[] args) {
         for (String line : args) {
             line = line.trim();
-            if (checkLine(line)) {
-                line = line.substring(1);
-                String[] temp = line.split("=", 2);
-                values.put(temp[0], temp[1]);
-            }
+            checkLine(line);
+            line = line.substring(1);
+            String[] temp = line.split("=", 2);
+            values.put(temp[0], temp[1]);
         }
     }
 
-    private boolean checkLine(String line) {
+    private void checkLine(String line) {
         if (!line.contains("=")) {
             throw new IllegalArgumentException(
                     String.format("Error: This argument '%s' does not contain an equal sign", line));
@@ -45,7 +44,6 @@ public class ArgsName {
             throw new IllegalArgumentException(
                     String.format("Error: This argument '%s' does not contain a value", line));
         }
-        return true;
     }
 
     public static ArgsName of(String[] args) {
