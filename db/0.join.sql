@@ -1,43 +1,43 @@
-create table departments(
+CREATE table departments(
     id serial primary key,
     name varchar(255)
 );
 
-create table employees(
+CREATE table employees(
     id serial primary key,
     name varchar(255),
     departments_id int references departments(id)
 );
 
-insert into departments(name) values ('department_1');
-insert into departments(name) values ('department_2');
-insert into departments(name) values ('department_3');
-insert into departments(name) values ('department_4');
+INSERT INTO departments(name) VALUES ('department_1');
+INSERT INTO departments(name) VALUES ('department_2');
+INSERT INTO departments(name) VALUES ('department_3');
+INSERT INTO departments(name) VALUES ('department_4');
 
-insert into employees(name, departments_id) values ('emp_1', 1);
-insert into employees(name, departments_id) values ('emp_2', 1);
-insert into employees(name, departments_id) values ('emp_3', 1);
-insert into employees(name, departments_id) values ('emp_4', 2);
-insert into employees(name, departments_id) values ('emp_5', 2);
-insert into employees(name, departments_id) values ('emp_6', 3);
+INSERT INTO employees(name, departments_id) VALUES ('emp_1', 1);
+INSERT INTO employees(name, departments_id) VALUES ('emp_2', 1);
+INSERT INTO employees(name, departments_id) VALUES ('emp_3', 1);
+INSERT INTO employees(name, departments_id) VALUES ('emp_4', 2);
+INSERT INTO employees(name, departments_id) VALUES ('emp_5', 2);
+INSERT INTO employees(name, departments_id) VALUES ('emp_6', 3);
 
-select * from departments;
-select * from employees;
+SELECT * FROM departments;
+SELECT * FROM employees;
 
-select * from departments d left join employees e on d.id = e.departments_id;
-select * from departments d right join employees e on d.id = e.departments_id;
-select * from departments d full join employees e on d.id = e.departments_id;
-select * from departments d cross join employees e;
+SELECT * FROM departments d LEFT JOIN employees e ON d.id = e.departments_id;
+SELECT * FROM departments d RIGHT JOIN employees e ON d.id = e.departments_id;
+SELECT * FROM departments d FULL JOIN employees e ON d.id = e.departments_id;
+SELECT * FROM departments d CROSS JOIN employees e;
 
-select * from departments d left join employees e on d.id = e.departments_id
-where e.departments_id is null;
+SELECT * FROM departments d LEFT JOIN employees e ON d.id = e.departments_id
+WHERE e.departments_id IS NULL;
 
 
-select d.id, d.name, e.id, e.name, e.departments_id
-from departments d left join employees e on d.id = e.departments_id;
+SELECT d.id, d.name, e.id, e.name, e.departments_id
+FROM departments d LEFT JOIN employees e ON d.id = e.departments_id;
 
-select d.id, d.name, e.id, e.name, e.departments_id
-from employees e right join departments d on d.id = e.departments_id;
+SELECT d.id, d.name, e.id, e.name, e.departments_id
+FROM employees e RIGHT JOIN departments d ON d.id = e.departments_id;
 
 
 create type gender as enum ('male', 'female');
@@ -57,4 +57,5 @@ insert into teens(name, status) values ('people_40', 'female');
 select * from teens;
 
 select * from teens t1 cross join teens t2
-where t1.status != t2.status;
+where t1.status != t2.status
+and t1.status = 'male';
