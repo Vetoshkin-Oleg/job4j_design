@@ -1,4 +1,3 @@
-/*
 package ru.job4j.jdbc;
 
 import java.sql.Connection;
@@ -18,4 +17,4 @@ public class ConnectionDemo {
             System.out.println(metaData.getURL());
         }
     }
-}*/
+}
