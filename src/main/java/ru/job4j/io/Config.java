@@ -23,17 +23,17 @@ public class Config {
                 line = line.trim();
                 if (line.startsWith("#") || line.isBlank()) {
                     continue;
-                } else if (checkLine(line)) {
-                    String[] temp = line.split("=", 2);
-                    values.put(temp[0], temp[1]);
                 }
+                checkLine(line);
+                String[] temp = line.split("=", 2);
+                values.put(temp[0], temp[1]);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean checkLine(String line) {
+    public void checkLine(String line) {
         if (!line.contains("=")) {
             throw new IllegalArgumentException("No equal sign!");
         }
@@ -46,7 +46,6 @@ public class Config {
         if (line.endsWith("=") && line.indexOf("=") == line.lastIndexOf("=")) {
             throw new IllegalArgumentException("No value!");
         }
-        return true;
     }
 
     public String value(String key) {
