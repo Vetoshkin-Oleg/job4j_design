@@ -1,10 +1,7 @@
 package ru.job4j.spammer;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -57,7 +54,10 @@ public class ImportDB {
                 cfg.getProperty("jdbc.password")
         )) {
             for (User user : users) {
-                try (PreparedStatement ps = cnt.prepareStatement("INSERT INTO users"
+                System.out.println(user.name + " " + user.email);
+            }
+            for (User user : users) {
+                try (PreparedStatement ps = cnt.prepareStatement("INSERT INTO demo_table"
                         + "(name, email) VALUES (?, ?)")) {
                     ps.setString(1, user.name);
                     ps.setString(2, user.email);
@@ -79,7 +79,8 @@ public class ImportDB {
 
     public static void main(String[] args) throws Exception {
         Properties cfg = new Properties();
-        try (InputStream in = ImportDB.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = ImportDB.class.getClassLoader()
+                .getResourceAsStream("app.properties")) {
             cfg.load(in);
         }
         ImportDB db = new ImportDB(cfg, "./data/dump.txt");
