@@ -52,7 +52,8 @@ public class ImportDB {
                 cfg.getProperty("jdbc.url"),
                 cfg.getProperty("jdbc.username"),
                 cfg.getProperty("jdbc.password")
-        )) { try (Statement statement = cnt.createStatement()) {
+        )) {
+            try (Statement statement = cnt.createStatement()) {
                 String sql = String.format(
                         "CREATE TABLE IF NOT EXISTS demo_table(%s, %s, %s);",
                         "id SERIAL PRIMARY KEY",
@@ -63,8 +64,8 @@ public class ImportDB {
             }
 
             for (User user : users) {
-                try (PreparedStatement ps = cnt.prepareStatement
-                        ("INSERT INTO demo_table(name, email) VALUES (?, ?)")) {
+                try (PreparedStatement ps = cnt.prepareStatement("INSERT INTO demo_table(name, email)"
+                        + " VALUES (?, ?)")) {
                     ps.setString(1, user.name);
                     ps.setString(2, user.email);
                     ps.execute();
