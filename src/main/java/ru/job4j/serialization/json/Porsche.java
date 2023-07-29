@@ -41,8 +41,8 @@ public class Porsche {
         return fuel;
     }
 
-    public String getEngine() {
-        return engine.getName();
+    public Engine getEngine() {
+        return engine;
     }
 
     public String[] getDescription() {
