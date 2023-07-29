@@ -15,12 +15,12 @@ create trigger tax_trigger
 create or replace function tax()
     returns trigger as
 $$
-    BEGIN
+    begin
         update products
         set price = price + price * 0.4
-        where id = (select id from inserted);
+        where id in (select id from inserted);
         return new;
-    END;
+    end;
 $$
 LANGUAGE 'plpgsql';
 
@@ -33,7 +33,7 @@ create trigger tax_trigger_row
 create or replace function tax_row()
     returns trigger as
 $$
-    BEGIN
+    begin
 		NEW.price = NEW.price + NEW.price * 0.3;
 		return NEW;
     END;
@@ -56,11 +56,11 @@ create trigger history_trigger
 create or replace function history()
     returns trigger as
 $$
-    BEGIN
-        INSERT INTO history_of_price(name, price, date)
-		VALUES(NEW.name, NEW.price, now());
-        return NEW;
-    END;
+    begin
+        insert into history_of_price(name, price, date)
+		values(NEW.name, NEW.price, now());
+        return new;
+    end;
 $$
 LANGUAGE 'plpgsql';
 
