@@ -40,4 +40,12 @@ public class Porsche {
     public String getFuel() {
         return fuel;
     }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public String[] getDescription() {
+        return description;
+    }
 }

@@ -26,8 +26,8 @@ public class Car {
         jsonObject.put("isCabriolet", porsche.isCabriolet());
         jsonObject.put("engineVolume", porsche.getEngineVolume());
         jsonObject.put("fuel", porsche.getFuel());
-        jsonObject.put("engine", jsonEngine);
-        jsonObject.put("description", jsonDescriptions);
+        jsonObject.put("engine", porsche.getEngine());
+        jsonObject.put("description", porsche.getDescription());
 
         /* Выведем результат в консоль */
         System.out.println(jsonObject);
