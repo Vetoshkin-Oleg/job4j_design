@@ -1,5 +1,6 @@
 INSERT INTO roles(name) VALUES ('programmer');
 INSERT INTO users(name, role_id) VALUES ('Ivan', 1);
+INSERT INTO users(name, role_id) VALUES ('TRTCYBINI', 1);
 INSERT INTO rules(name) VALUES ('RULES');
 INSERT INTO roles_rules(role_id, rule_id) VALUES (1, 1);
 INSERT INTO categories(name) VALUES ('CATEGORIES');
