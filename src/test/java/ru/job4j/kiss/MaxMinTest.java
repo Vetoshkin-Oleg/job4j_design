@@ -9,7 +9,7 @@ import java.util.List;
 class MaxMinTest {
 
     @Test
-    void maxWhen1_6_4_2_5_3_3Then6() {
+    void maxWhen1642533Then6() {
         List<Integer> list = List.of(
                 1, 6, 4, 2, 5, 3, 3
         );
@@ -21,7 +21,7 @@ class MaxMinTest {
     }
 
     @Test
-    void minWhen1_6_4_2_5_3_3Then1() {
+    void minWhen1642533Then1() {
         List<Integer> list = List.of(
                 1, 6, 4, 2, 5, 3, 3
         );
@@ -33,7 +33,7 @@ class MaxMinTest {
     }
 
     @Test
-    void maxWhen3a_4b_5c_6dThen6d() {
+    void maxWhen3a4b5c6dThen6d() {
         List<String> strings = List.of(
                 "aaa", "bbbb", "ccccc", "dddddd"
         );
@@ -45,7 +45,7 @@ class MaxMinTest {
     }
 
     @Test
-    void maxWhen6a_5b_4c_3dThen6a() {
+    void maxWhen6a5b4c3dThen6a() {
         List<String> strings = List.of(
                 "aaaaaa", "bbbbb", "cccc", "ddd"
         );
@@ -57,7 +57,7 @@ class MaxMinTest {
     }
 
     @Test
-    void minWhen3a_4b_5c_6dThen3a() {
+    void minWhen3a4b5c6dThen3a() {
         List<String> strings = List.of(
                 "aaa", "bbbb", "ccccc", "dddddd"
         );
@@ -69,7 +69,7 @@ class MaxMinTest {
     }
 
     @Test
-    void minWhen6a_5b_4c_3dThen3d() {
+    void minWhen6a5b4c3dThen3d() {
         List<String> strings = List.of(
                 "aaaaaa", "bbbbb", "cccc", "ddd"
         );
