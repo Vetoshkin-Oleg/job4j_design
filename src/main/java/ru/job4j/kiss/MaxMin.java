@@ -12,7 +12,7 @@ public class MaxMin {
         return findMaxMin(value, comparator);
     }
 
-    public static <T> T findMaxMin(List<T> list, Comparator<T> comparator) {
+    private static <T> T findMaxMin(List<T> list, Comparator<T> comparator) {
         T result = list.get(0);
         for (int i = 1; i < list.size(); i++) {
             if (comparator.compare(list.get(i), result) > 0) {
