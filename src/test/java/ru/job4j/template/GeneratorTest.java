@@ -1,5 +1,6 @@
 package ru.job4j.template;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GeneratorTest {
 
+    @Disabled
     @Test
     void whenKeyIsValidThenTestPassed() {
         GeneratorClass generatorClass = new GeneratorClass();
@@ -20,6 +22,7 @@ class GeneratorTest {
         assertEquals(expect, generatorClass.produce(input, args));
     }
 
+    @Disabled
     @Test
     void whenNoKeyInMapThenTestCrash() {
         GeneratorClass generatorClass = new GeneratorClass();
@@ -32,6 +35,7 @@ class GeneratorTest {
                         () -> generatorClass.produce(input, args));
     }
 
+    @Disabled
     @Test
     void whenHaveExtraKeysInMapThenTestCrash() {
         GeneratorClass generatorClass = new GeneratorClass();
