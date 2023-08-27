@@ -10,6 +10,7 @@ import java.util.*;
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     private final List<FileProperty> list = new ArrayList<>();
     private final Set<FileProperty> set = new HashSet<>();
+    private final Set<String> result = new HashSet<>();
     private final Map<Path, FileProperty> map = new HashMap<>();
 
     @Override
@@ -27,11 +28,16 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
         for (Map.Entry<Path, FileProperty> entry : map.entrySet()) {
             for (FileProperty f : set) {
                 if (f.equals(entry.getValue())) {
-                    System.out.println(entry.getKey());
+                    System.out.println((entry.getKey().toString()));
+                    result.add(entry.getKey().toString());
                 }
             }
         }
 
         return super.visitFile(file, attrs);
+    }
+
+    public Set<String> getResult() {
+        return result;
     }
 }
