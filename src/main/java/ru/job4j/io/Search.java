@@ -9,10 +9,17 @@ import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        if (isValid(args)) {
-            Path start = Paths.get(args[0]);
-            search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Количество аргументов командной строки должно быть равно 2");
         }
+        if (!isValidFolder(args[0])) {
+            throw new IllegalArgumentException("Первый аргумент командной строки не указывает на существующую папку");
+        }
+        if (!isValidExtension(args[1])) {
+            throw new IllegalArgumentException("Второй аргумент командной строки не является расширением файла");
+        }
+        Path start = Paths.get(args[0]);
+        search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
@@ -21,7 +28,12 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static boolean isValid(String[] args) {
-        return args.length == 2 && (".js".equals(args[1]));
+    public static boolean isValidFolder(String args) {
+        Path path = Path.of(args);
+        return Files.exists(path) && Files.isDirectory(path);
+    }
+
+    public static boolean isValidExtension(String args) {
+        return (args.length() >= 2) && (args.charAt(0) == '.') && Character.isLetter(args.charAt(1));
     }
 }
