@@ -28,12 +28,12 @@ public class Search {
         return searcher.getPaths();
     }
 
-    public static boolean isValidFolder(String args) {
+    private static boolean isValidFolder(String args) {
         Path path = Path.of(args);
         return Files.exists(path) && Files.isDirectory(path);
     }
 
-    public static boolean isValidExtension(String args) {
+    private static boolean isValidExtension(String args) {
         return (args.length() >= 2) && (args.charAt(0) == '.') && Character.isLetter(args.charAt(1));
     }
 }
