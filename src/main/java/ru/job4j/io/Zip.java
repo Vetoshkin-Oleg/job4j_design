@@ -3,17 +3,25 @@ package ru.job4j.io;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-    private static String sourceFolder;
+    private static Path sourceFolder;
     private static String excludeFiles;
-    private static String outputArchive;
+    private static File outputArchive;
 
     public void packFiles(List<Path> sources, File target) {
+        for (Path p : sources) {
+            System.out.println(p);
+        }
+    }
 
+    private void populateFilesList() throws IOException {
+        List<Path> paths = Search.search(sourceFolder, p -> !p.toFile().getName().endsWith(excludeFiles));
+        packFiles(paths, outputArchive);
     }
 
     public void packSingleFile(File source, File target) {
@@ -35,20 +43,23 @@ public class Zip {
         );
     }*/
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         checkArguments(args);
+        Zip zip = new Zip();
+        zip.populateFilesList();
     }
 
     private static void checkArguments(String[] args) {
         ArgsName argsName = ArgsName.of(args);
-        sourceFolder = argsName.get("d");
+        sourceFolder = Path.of(argsName.get("d"));
         excludeFiles = argsName.get("e");
-        outputArchive = argsName.get("o");
+        outputArchive = new File(argsName.get("o"));
 
         if (args.length != 3) {
             throw new IllegalArgumentException("Количество аргументов командной строки должно быть равно 3");
         }
-        if (!(Files.exists(Path.of(sourceFolder)) && Files.isDirectory(Path.of(sourceFolder)))) {
+        if (!(Files.exists(sourceFolder)
+                && Files.isDirectory(sourceFolder))) {
             throw new IllegalArgumentException("Первый аргумент командной строки не указывает на существующую папку,"
                     + " подлежащую архивации");
         }
@@ -57,7 +68,7 @@ public class Zip {
             throw new IllegalArgumentException("Второй аргумент командной строки не является расширением файлов,"
                     + " которые следует исключить из архивации");
         }
-        if (!(outputArchive.endsWith(".zip"))) {
+        if (!(outputArchive.toString().endsWith(".zip"))) {
             throw new IllegalArgumentException("Третий аргумент командной строки не является корректным именем"
                     + " для результирующего архива");
         }
