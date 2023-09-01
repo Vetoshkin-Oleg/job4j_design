@@ -13,21 +13,14 @@ public class Zip {
     private static File outputArchive;
 
     public void packFiles(List<Path> sources, File target) {
-        try (FileOutputStream fos = new FileOutputStream(target);
-             ZipOutputStream zos = new ZipOutputStream(fos)) {
-            for (Path path : sources) {
-                ZipEntry ze = new ZipEntry(path.toString().substring(sourceFolder.toString().length() + 1));
-                zos.putNextEntry(ze);
-                FileInputStream fis = new FileInputStream(path.toString());
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = fis.read(buffer)) > 0) {
-                    zos.write(buffer, 0, len);
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+            for (Path p : sources) {
+                zip.putNextEntry(new ZipEntry(p.toFile().getPath()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(p.toFile()))) {
+                    zip.write(out.readAllBytes());
                 }
-                zos.closeEntry();
-                fis.close();
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -57,6 +50,9 @@ public class Zip {
     }*/
 
     public static void main(String[] args) throws IOException {
+        if (args.length != 3) {
+            throw new IllegalArgumentException("Количество аргументов командной строки должно быть равно 3");
+        }
         checkArguments(args);
         Zip zip = new Zip();
         zip.populateFilesList();
@@ -68,22 +64,16 @@ public class Zip {
         excludeFiles = argsName.get("e");
         outputArchive = new File(argsName.get("o"));
 
-        if (args.length != 3) {
-            throw new IllegalArgumentException("Количество аргументов командной строки должно быть равно 3");
-        }
         if (!(Files.exists(sourceFolder)
                 && Files.isDirectory(sourceFolder))) {
-            throw new IllegalArgumentException("Первый аргумент командной строки не указывает на существующую папку,"
-                    + " подлежащую архивации");
+            throw new IllegalArgumentException("Первый аргумент командной строки не указывает на существующую папку, подлежащую архивации");
         }
         if (!((excludeFiles.length() >= 2) && (excludeFiles.charAt(0) == '.')
                 && Character.isLetter(excludeFiles.charAt(1)))) {
-            throw new IllegalArgumentException("Второй аргумент командной строки не является расширением файлов,"
-                    + " которые следует исключить из архивации");
+            throw new IllegalArgumentException("Второй аргумент командной строки не является расширением файлов, которые следует исключить из архивации");
         }
         if (!(outputArchive.toString().endsWith(".zip"))) {
-            throw new IllegalArgumentException("Третий аргумент командной строки не является корректным именем"
-                    + " для результирующего архива");
+            throw new IllegalArgumentException("Третий аргумент командной строки не является корректным именем для результирующего архива");
         }
     }
 }
