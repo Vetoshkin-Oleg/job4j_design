@@ -3,7 +3,6 @@ package ru.job4j.io;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -14,8 +13,22 @@ public class Zip {
     private static File outputArchive;
 
     public void packFiles(List<Path> sources, File target) {
-        for (Path p : sources) {
-            System.out.println(p);
+        try (FileOutputStream fos = new FileOutputStream(target);
+             ZipOutputStream zos = new ZipOutputStream(fos)) {
+            for (Path path : sources) {
+                ZipEntry ze = new ZipEntry(path.toString().substring(sourceFolder.toString().length() + 1));
+                zos.putNextEntry(ze);
+                FileInputStream fis = new FileInputStream(path.toString());
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = fis.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                zos.closeEntry();
+                fis.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
