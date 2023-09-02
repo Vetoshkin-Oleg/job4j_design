@@ -1,4 +1,3 @@
-/*
 package ru.job4j.io;
 
 import org.junit.jupiter.api.Test;
@@ -62,4 +61,4 @@ class CSVReaderTest {
         CSVReader.handle(argsName);
         assertThat(Files.readString(target.toPath())).isEqualTo(expected);
     }
-}*/
+}
