@@ -10,7 +10,7 @@ public class CSVReader {
     private static String delimiter;
     private static String out;
     private static String filter;
-    private static List<String> selectedColumns = new ArrayList<>();
+    private static final List<String> SELECT = new ArrayList<>();
     private static List<String> columns = new ArrayList<>();
 
     public static void handle(ArgsName argsName) throws IOException {
@@ -23,17 +23,15 @@ public class CSVReader {
         List<String> content = readFile(sourceFile);
 
         StringBuilder stringBuilder = new StringBuilder();
-        for (int row = 0; row < content.size(); row++) {
-            String[] temp = content.get(row).split(delimiter);
-            for (int column = 0; column < selectedColumns.size(); column++) {
-                int index = columns.indexOf(selectedColumns.get(column));
+        for (String s : content) {
+            String[] temp = s.split(delimiter);
+            for (String selectedColumn : SELECT) {
+                int index = columns.indexOf(selectedColumn);
                 stringBuilder.append(temp[index]);
                 stringBuilder.append(delimiter);
             }
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-            if (row != columns.size() - 1) {
-                stringBuilder.append(System.lineSeparator());
-            }
+            stringBuilder.append(System.lineSeparator());
         }
         print(stringBuilder.toString(), out);
     }
@@ -41,10 +39,9 @@ public class CSVReader {
     private static void filterColumn(Path path) throws IOException {
         var scanner = new Scanner(path);
         String headLine = scanner.nextLine();
-        headLine = headLine.substring(1, headLine.length() - 1);
         columns = List.of(headLine.split(delimiter));
-        selectedColumns.addAll(Arrays.asList(filter.split(",")));
-        if (!new HashSet<>(columns).containsAll(selectedColumns)) {
+        SELECT.addAll(Arrays.asList(filter.split(",")));
+        if (!new HashSet<>(columns).containsAll(SELECT)) {
             throw new IllegalArgumentException("Четвертый аргумент командной строки введен некорректно: "
                     + "не все значения параметра \"filter\" входят в список заголовков всех столбцов файла");
         }
@@ -52,10 +49,10 @@ public class CSVReader {
 
     private static void print(String data, String out) {
         if ("stdout".equals(out)) {
-            System.out.println(data);
+            System.out.print(data);
         } else {
             try (PrintWriter pw = new PrintWriter(new FileWriter(out, false))) {
-                pw.println(data);
+                pw.print(data);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -67,7 +64,6 @@ public class CSVReader {
         var scanner = new Scanner(path);
         while (scanner.hasNextLine()) {
             String string = scanner.nextLine();
-            string = string.substring(1, string.length() - 1);
             result.add(string);
         }
         return result;
