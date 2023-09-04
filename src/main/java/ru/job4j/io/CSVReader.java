@@ -11,67 +11,74 @@ public class CSVReader {
     private static String out;
     private static String filter;
     private static List<String> selectedColumns = new ArrayList<>();
+    private static List<String> columns = new ArrayList<>();
 
     public static void handle(ArgsName argsName) throws IOException {
+        sourceFile = Path.of(argsName.get("path"));
+        delimiter = argsName.get("delimiter");
+        out = argsName.get("out");
+        filter = argsName.get("filter");
+        checkArguments();
         filterColumn(sourceFile);
-//        readFile(sourceFile);
+        List<String> content = readFile(sourceFile);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int row = 0; row < content.size(); row++) {
+            String[] temp = content.get(row).split(delimiter);
+            for (int column = 0; column < selectedColumns.size(); column++) {
+                int index = columns.indexOf(selectedColumns.get(column));
+                stringBuilder.append(temp[index]);
+                stringBuilder.append(delimiter);
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            if (row != columns.size() - 1) {
+                stringBuilder.append(System.lineSeparator());
+            }
+        }
+        print(stringBuilder.toString(), out);
     }
 
     private static void filterColumn(Path path) throws IOException {
-        List<String> header;
         var scanner = new Scanner(path);
         String headLine = scanner.nextLine();
         headLine = headLine.substring(1, headLine.length() - 1);
-        header = List.of(headLine.split(delimiter));
+        columns = List.of(headLine.split(delimiter));
         selectedColumns.addAll(Arrays.asList(filter.split(",")));
-        if (!new HashSet<>(header).containsAll(selectedColumns)) {
+        if (!new HashSet<>(columns).containsAll(selectedColumns)) {
             throw new IllegalArgumentException("Четвертый аргумент командной строки введен некорректно: "
-                    + "не все заголовки параметра filter входят в список заголовков всех столбцов файла");
+                    + "не все значения параметра \"filter\" входят в список заголовков всех столбцов файла");
         }
     }
 
-    private static void print(List<String> list, String out) {
+    private static void print(String data, String out) {
         if ("stdout".equals(out)) {
-            for (String s : list) {
-                System.out.println(s);
-            }
+            System.out.println(data);
         } else {
             try (PrintWriter pw = new PrintWriter(new FileWriter(out, false))) {
-                for (String s : list) {
-                    pw.println(s);
-                }
+                pw.println(data);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static void readFile(Path path) throws IOException {
-        var scanner = new Scanner(path).useDelimiter(delimiter);
+    public static List<String> readFile(Path path) throws IOException {
+        List<String> result = new ArrayList<>();
+        var scanner = new Scanner(path);
         while (scanner.hasNextLine()) {
-            System.out.println(scanner.nextLine());
+            String string = scanner.nextLine();
+            string = string.substring(1, string.length() - 1);
+            result.add(string);
         }
+        return result;
     }
 
     public static void main(String[] args) throws Exception {
-        String[] arg = new String[4];
-        arg[0] = "-path=file.csv";
-        arg[1] = "-delimiter=;";
-        arg[2] = "-out=stdout.csv";
-        arg[3] = "-filter=name,age";
-        if (arg.length != 4) {
+        if (args.length != 4) {
             throw new IllegalArgumentException("Количество аргументов командной строки должно быть равно 4");
         }
-        ArgsName argsName = ArgsName.of(arg);
-        sourceFile = Path.of(argsName.get("path"));
-        delimiter = argsName.get("delimiter");
-        out = argsName.get("out");
-        filter = argsName.get("filter");
-
-        checkArguments();
-        filterColumn(sourceFile);
+        ArgsName argsName = ArgsName.of(args);
         handle(argsName);
-//        print(out);
     }
 
     private static void checkArguments() {
