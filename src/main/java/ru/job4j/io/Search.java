@@ -19,7 +19,12 @@ public class Search {
             throw new IllegalArgumentException("Второй аргумент командной строки не является расширением файла");
         }
         Path start = Paths.get(args[0]);
-        search(start, p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
+        Predicate<Path> condition = pred(args[1]);
+        search(start, condition).forEach(System.out::println);
+    }
+
+    private static Predicate<Path> pred(String extension) {
+        return p -> p.toFile().getName().endsWith(extension);
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
