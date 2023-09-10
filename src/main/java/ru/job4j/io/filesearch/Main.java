@@ -37,18 +37,14 @@ public class Main {
         String template = argsName.get("n");
         String searchType = argsName.get("t");
         switch (searchType) {
-            case ("name") :
-                System.out.println("name");
-                condition = p -> p.toFile().getName().equalsIgnoreCase(template);
-                break;
-            case ("mask") :
-                System.out.println("mask");
-                break;
-            case ("regex") :
-                System.out.println("regex");
-                System.out.println(template);
-                condition = p -> Pattern.compile(template).matcher(p.toFile().getName()).matches();
-                break;
+            case ("name") -> condition = p -> p.toFile().getName().equalsIgnoreCase(template);
+            case ("mask") -> {
+                String reg = template.replace(".", "\\.")
+                        .replace("*", ".*")
+                        .replace("?", ".");
+                condition = p -> Pattern.compile(reg).matcher(p.toFile().getName()).matches();
+            }
+            case ("regex") -> condition = p -> Pattern.compile(template).matcher(p.toFile().getName()).matches();
         }
         return condition;
     }
