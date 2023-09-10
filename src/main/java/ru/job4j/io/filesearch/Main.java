@@ -33,7 +33,7 @@ public class Main {
     }
 
     private static Predicate<Path> pred(ArgsName argsName) {
-        Predicate<Path> condition = null;
+        Predicate<Path> condition;
         String template = argsName.get("n");
         String searchType = argsName.get("t");
         switch (searchType) {
@@ -42,7 +42,10 @@ public class Main {
                 condition = p -> p.toFile().getName().equalsIgnoreCase(template);
                 break;
             case ("mask") :
-                System.out.println("mask");
+                String reg = template.replace(".", "\\.")
+                        .replace("*", ".*")
+                        .replace("?", ".");
+                condition = p -> Pattern.compile(reg).matcher(p.toFile().getName()).matches();
                 break;
             case ("regex") :
                 System.out.println("regex");
