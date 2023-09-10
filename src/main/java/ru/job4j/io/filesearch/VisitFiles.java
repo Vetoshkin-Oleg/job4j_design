@@ -13,8 +13,8 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class VisitFiles implements FileVisitor<Path> {
     private final Predicate<Path> condition;
-    private static final List<Path> inaccessibleDirectories = new ArrayList<>();
-    private static final List<Path> foundFiles = new ArrayList<>();
+    private static final List<Path> INACCESS = new ArrayList<>();
+    private static final List<Path> FOUND = new ArrayList<>();
 
     public VisitFiles(Predicate<Path> condition) {
         this.condition = condition;
@@ -28,14 +28,14 @@ public class VisitFiles implements FileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         if (condition.test(file)) {
-            foundFiles.add(file.toAbsolutePath().normalize());
+            FOUND.add(file.toAbsolutePath().normalize());
         }
         return CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exc) {
-        inaccessibleDirectories.add(file.toAbsolutePath().normalize());
+        INACCESS.add(file.toAbsolutePath().normalize());
         return CONTINUE;
     }
 
@@ -45,10 +45,10 @@ public class VisitFiles implements FileVisitor<Path> {
     }
 
     public List<Path> getInaccessibleDirectories() {
-        return inaccessibleDirectories;
+        return INACCESS;
     }
 
     public List<Path> getFoundFiles() {
-        return foundFiles;
+        return FOUND;
     }
 }
