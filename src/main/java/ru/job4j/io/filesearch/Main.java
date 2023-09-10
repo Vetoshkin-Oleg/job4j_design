@@ -14,27 +14,44 @@ public class Main {
         }
         ArgsName argsName = ArgsName.of(args);
         checkArguments(argsName);
+        Predicate<Path> condition = pred(argsName);
+        List<Path> findFiles = search(argsName, condition);
+        WriteFile.print(findFiles, argsName);
 
-        /*VisitFiles pf = new VisitFiles(condition);
-        Files.walkFileTree(rootDir, pf);
-
-        private static Predicate<Path> pred(String extension) {
-            return p -> p.toFile().getName().endsWith(extension);
-        }
-
-        List<Path> result = new VisitFiles(condition).getFoundFiles();
-        for (Path p : result) {
-            System.out.println(p);
-        }
-        System.out.println(result.size());*/
-
-        /*System.out.println();
         List<Path> accessDenied = new VisitFiles(condition).getInaccessibleDirectories();
-        System.out.println("Список папок, недоступных для чтения");
-        for (Path p : accessDenied) {
-            System.out.println(p);
+        if (accessDenied.size() > 0) {
+            System.out.println("Список папок, недоступных для чтения:");
+            System.out.println("-------------------------------------");
+            for (Path p : accessDenied) {
+                System.out.println(p);
+            }
+            System.out.printf("Количество недоступных папок - %d%n", accessDenied.size());
         }
-        System.out.println(accessDenied.size());*/
+    }
+
+    private static Predicate<Path> pred(ArgsName argsName) {
+        Predicate<Path> condition = null;
+        String name = argsName.get("n");
+        String searchType = argsName.get("t");
+        switch (searchType) {
+            case ("name") :
+                condition = p -> p.toFile().getName().equalsIgnoreCase(name);
+                break;
+            case ("mask") :
+                System.out.println("mask");
+                break;
+            case ("regex") :
+                System.out.println("regex");
+                break;
+        }
+        return condition;
+    }
+
+    public static List<Path> search(ArgsName argsName, Predicate<Path> condition) throws IOException {
+        Path root = Path.of(argsName.get("d"));
+        VisitFiles searcher = new VisitFiles(condition);
+        Files.walkFileTree(root, searcher);
+        return searcher.getFoundFiles();
     }
 
     private static void checkArguments(ArgsName argsName) {
@@ -52,11 +69,14 @@ public class Main {
         String name = argsName.get("n");
         String searchType = argsName.get("t");
         int dotPosition = name.lastIndexOf(".");
-        if (dotPosition == -1 && (!"regex".equals(searchType))) {
-            throw new IllegalArgumentException("Второй аргумент указан неправильно для поиска по имени или по маске файла");
+        if (dotPosition == -1 && "name".equals(searchType)) {
+            throw new IllegalArgumentException("Второй аргумент указан неправильно для поиска по имени файла: отсутствует знак \"точка\"");
         }
         String nameTemp = name.substring(0, dotPosition);
         String extensionTemp = name.substring(dotPosition + 1);
+        if (nameTemp.length() == 0 && extensionTemp.length() == 0) {
+            throw new IllegalArgumentException("Второй аргумент содержит знак \"точка\", но не содержит имя и расширение для поиска");
+        }
         if (nameTemp.length() == 0 && (!"regex".equals(searchType))) {
             throw new IllegalArgumentException("Второй аргумент не содержит имя для поиска по имени или по маске файла");
         }

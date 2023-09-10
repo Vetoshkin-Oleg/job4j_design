@@ -13,8 +13,8 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class VisitFiles implements FileVisitor<Path> {
     private final Predicate<Path> condition;
-    private static List<Path> inaccessibleDirectories = new ArrayList<>();
-    private static List<Path> foundFiles = new ArrayList<>();
+    private static final List<Path> inaccessibleDirectories = new ArrayList<>();
+    private static final List<Path> foundFiles = new ArrayList<>();
 
     public VisitFiles(Predicate<Path> condition) {
         this.condition = condition;
@@ -27,7 +27,9 @@ public class VisitFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        foundFiles.add(file.toAbsolutePath().normalize());
+        if (condition.test(file)) {
+            foundFiles.add(file.toAbsolutePath().normalize());
+        }
         return CONTINUE;
     }
 
