@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -16,7 +17,9 @@ public class Main {
         checkArguments(argsName);
         Predicate<Path> condition = pred(argsName);
         List<Path> findFiles = search(argsName, condition);
-        WriteFile.print(findFiles, argsName);
+        if (findFiles.size() > 0) {
+            WriteFile.print(findFiles, argsName);
+        }
 
         List<Path> accessDenied = new VisitFiles(condition).getInaccessibleDirectories();
         if (accessDenied.size() > 0) {
@@ -31,17 +34,20 @@ public class Main {
 
     private static Predicate<Path> pred(ArgsName argsName) {
         Predicate<Path> condition = null;
-        String name = argsName.get("n");
+        String template = argsName.get("n");
         String searchType = argsName.get("t");
         switch (searchType) {
             case ("name") :
-                condition = p -> p.toFile().getName().equalsIgnoreCase(name);
+                System.out.println("name");
+                condition = p -> p.toFile().getName().equalsIgnoreCase(template);
                 break;
             case ("mask") :
                 System.out.println("mask");
                 break;
             case ("regex") :
                 System.out.println("regex");
+                System.out.println(template);
+                condition = p -> Pattern.compile(template).matcher(p.toFile().getName()).matches();
                 break;
         }
         return condition;
@@ -66,23 +72,7 @@ public class Main {
             throw new IllegalArgumentException("Первый аргумент не указывает на существующую директорию");
         }
 
-        String name = argsName.get("n");
         String searchType = argsName.get("t");
-        int dotPosition = name.lastIndexOf(".");
-        if (dotPosition == -1 && "name".equals(searchType)) {
-            throw new IllegalArgumentException("Второй аргумент указан неправильно для поиска по имени файла: отсутствует знак \"точка\"");
-        }
-        String nameTemp = name.substring(0, dotPosition);
-        String extensionTemp = name.substring(dotPosition + 1);
-        if (nameTemp.length() == 0 && extensionTemp.length() == 0) {
-            throw new IllegalArgumentException("Второй аргумент содержит знак \"точка\", но не содержит имя и расширение для поиска");
-        }
-        if (nameTemp.length() == 0 && (!"regex".equals(searchType))) {
-            throw new IllegalArgumentException("Второй аргумент не содержит имя для поиска по имени или по маске файла");
-        }
-        if (extensionTemp.length() == 0 && (!"regex".equals(searchType))) {
-            throw new IllegalArgumentException("Второй аргумент не содержит расширение для поиска по имени или по маске файла");
-        }
         if (!("name".equals(searchType) || "mask".equals(searchType) || "regex".equals(searchType))) {
             throw new IllegalArgumentException("Третий аргумент должен иметь одно из трех значений: name, mask, regex");
         }
