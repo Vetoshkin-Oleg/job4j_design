@@ -49,22 +49,38 @@ public class Main {
             throw new IllegalArgumentException("Первый аргумент не указывает на существующую директорию");
         }
 
+        String name = argsName.get("n");
         String searchType = argsName.get("t");
+        int dotPosition = name.lastIndexOf(".");
+        if (dotPosition == -1 && (!"regex".equals(searchType))) {
+            throw new IllegalArgumentException("Второй аргумент указан неправильно для поиска по имени или по маске файла");
+        }
+        String nameTemp = name.substring(0, dotPosition);
+        String extensionTemp = name.substring(dotPosition + 1);
+        if (nameTemp.length() == 0 && (!"regex".equals(searchType))) {
+            throw new IllegalArgumentException("Второй аргумент не содержит имя для поиска по имени или по маске файла");
+        }
+        if (extensionTemp.length() == 0 && (!"regex".equals(searchType))) {
+            throw new IllegalArgumentException("Второй аргумент не содержит расширение для поиска по имени или по маске файла");
+        }
         if (!("name".equals(searchType) || "mask".equals(searchType) || "regex".equals(searchType))) {
             throw new IllegalArgumentException("Третий аргумент должен иметь одно из трех значений: name, mask, regex");
         }
 
         String out = argsName.get("o");
-        String tempExtension;
-        try {
-            tempExtension = out.substring(out.lastIndexOf('.'));
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Четвертый аргумент командной строки не содержит расширения файла");
+        int outDotPosition = out.lastIndexOf('.');
+        if (outDotPosition == -1) {
+            throw new IllegalArgumentException("Четвертый аргумент командной строки содержит некорректное значение файла для вывода результата: "
+                    + "отсутствует имя либо расширение");
         }
-        if (!((tempExtension.length() >= 2)
-                && Character.isLetter(tempExtension.charAt(1))
-                && (tempExtension.charAt(0) == '.'))) {
-            throw new IllegalArgumentException("Четвертый аргумент командной строки не является возможным именем файла для сохранения результатов");
+        String outName = out.substring(0, outDotPosition);
+        String outExtension = out.substring(outDotPosition + 1);
+        if (outName.length() == 0) {
+            throw new IllegalArgumentException("Четвертый аргумент командной строки не содержит корректное имя файла для сохранения результатов");
+        }
+        if (!((outExtension.length() >= 1)
+                && Character.isLetter(outExtension.charAt(0)))) {
+            throw new IllegalArgumentException("Четвертый аргумент командной строки не содержит корректное расширение файла для сохранения результатов");
         }
     }
 }
