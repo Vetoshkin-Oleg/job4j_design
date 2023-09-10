@@ -38,7 +38,6 @@ public class Main {
         String searchType = argsName.get("t");
         switch (searchType) {
             case ("name") :
-                System.out.println("name");
                 condition = p -> p.toFile().getName().equalsIgnoreCase(template);
                 break;
             case ("mask") :
@@ -48,8 +47,6 @@ public class Main {
                 condition = p -> Pattern.compile(reg).matcher(p.toFile().getName()).matches();
                 break;
             case ("regex") :
-                System.out.println("regex");
-                System.out.println(template);
                 condition = p -> Pattern.compile(template).matcher(p.toFile().getName()).matches();
                 break;
             default:
