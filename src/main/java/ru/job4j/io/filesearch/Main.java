@@ -46,11 +46,8 @@ public class Main {
                         .replace("?", ".");
                 condition = p -> Pattern.compile(reg).matcher(p.toFile().getName()).matches();
                 break;
-            case ("regex") :
-                condition = p -> Pattern.compile(template).matcher(p.toFile().getName()).matches();
-                break;
             default:
-                throw new IllegalStateException("Unexpected value: " + searchType);
+                condition = p -> Pattern.compile(template).matcher(p.toFile().getName()).matches();
         }
         return condition;
     }
