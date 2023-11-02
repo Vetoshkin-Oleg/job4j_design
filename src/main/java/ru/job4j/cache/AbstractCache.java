@@ -16,13 +16,13 @@ public abstract class AbstractCache<K, V> {
     public final V get(K key) throws IOException {
         SoftReference<V> softReference = cache.get(key);
         V result = null;
-        if (key != null) {
+        if (key == null) {
             if (softReference == null) {
                 result = load(key);
                 put(key, result);
-            } else {
-                result = softReference.get();
             }
+        } else {
+            result = softReference.get();
         }
         return result;
     }
