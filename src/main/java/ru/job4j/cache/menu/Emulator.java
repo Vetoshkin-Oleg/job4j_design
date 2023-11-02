@@ -34,7 +34,9 @@ public class Emulator {
                         String value = dirFileCache.get(fileName);
                         System.out.println(value);
                     }
-                    case 4 -> run = false;
+                    case 4 -> {
+                        run = false;
+                    }
                     default -> throw new NumberFormatException();
                 }
             } catch (NumberFormatException | IOException e) {
