@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ReportXMLTest {
 
     @Test
-    public void whenOldGenerated() {
+    public void whenXMLGenerated() {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
         Employee worker1 = new Employee("AAA", now, now, 200);
@@ -38,7 +38,6 @@ public class ReportXMLTest {
                         + "\t</employee>" + System.lineSeparator() + "</employees>",
                 worker1.getName(), parser.parse(worker1.getHired()), parser.parse(worker1.getFired()), worker1.getSalary(),
                 worker2.getName(), parser.parse(worker2.getHired()), parser.parse(worker2.getFired()), worker2.getSalary());
-        System.out.println(expect);
         assertThat(engine.generate(em -> true)).isEqualTo(expect);
     }
 }
