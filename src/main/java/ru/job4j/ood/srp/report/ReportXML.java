@@ -47,8 +47,6 @@ public class ReportXML implements Report {
     @XmlRootElement(name = "employees")
     public static class Employees {
 
-//        @XmlElementWrapper(name = "statuses")
-//        @XmlElement(name = "employee")
         private List<Employee> employee;
 
         public Employees() {
