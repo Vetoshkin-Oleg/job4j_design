@@ -7,9 +7,11 @@ import ru.job4j.ood.srp.store.Store;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Calendar;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class ReportXML implements Report {
@@ -22,7 +24,7 @@ public class ReportXML implements Report {
         this.store = store;
         this.dateTimeParser = dateTimeParser;
         try {
-            JAXBContext context = JAXBContext.newInstance(Employee.class);
+            JAXBContext context = JAXBContext.newInstance(Employees.class);
             marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         } catch (JAXBException e) {
@@ -33,17 +35,33 @@ public class ReportXML implements Report {
     @Override
     public String generate(Predicate<Employee> filter) {
         StringBuilder text = new StringBuilder();
-        for (Employee employee : store.findBy(filter)) {
-            String xml;
-            try (StringWriter writer = new StringWriter()) {
-                marshaller.marshal(employee, writer);
-                xml = writer.getBuffer().toString();
-            } catch (IOException | JAXBException e) {
-                throw new RuntimeException(e);
-            }
-            text.append(xml);
+        String xml;
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(new Employees(store.findBy(filter)), writer);
+            xml = writer.getBuffer().toString();
+        } catch (IOException | JAXBException e) {
+            throw new RuntimeException(e);
         }
-        System.out.print(text);
-        return text.toString();
+        return xml;
+    }
+
+    @XmlRootElement(name = "employees")
+    public static class Employees {
+        private List<Employee> employees;
+
+        public Employees() {
+        }
+
+        public Employees(List<Employee> employees) {
+            this.employees = employees;
+        }
+
+        public List<Employee> getEmployees() {
+            return employees;
+        }
+
+        public void setEmployees(List<Employee> employees) {
+            this.employees = employees;
+        }
     }
 }
