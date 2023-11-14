@@ -34,7 +34,6 @@ public class ReportXML implements Report {
 
     @Override
     public String generate(Predicate<Employee> filter) {
-        StringBuilder text = new StringBuilder();
         String xml;
         try (StringWriter writer = new StringWriter()) {
             marshaller.marshal(new Employees(store.findBy(filter)), writer);
@@ -47,21 +46,24 @@ public class ReportXML implements Report {
 
     @XmlRootElement(name = "employees")
     public static class Employees {
-        private List<Employee> employees;
+
+//        @XmlElementWrapper(name = "statuses")
+//        @XmlElement(name = "employee")
+        private List<Employee> employee;
 
         public Employees() {
         }
 
         public Employees(List<Employee> employees) {
-            this.employees = employees;
+            this.employee = employees;
         }
 
-        public List<Employee> getEmployees() {
-            return employees;
+        public List<Employee> getEmployee() {
+            return employee;
         }
 
-        public void setEmployees(List<Employee> employees) {
-            this.employees = employees;
+        public void setEmployee(List<Employee> employee) {
+            this.employee = employee;
         }
     }
 }
