@@ -22,20 +22,23 @@ public class ReportXMLTest {
         store.add(worker1);
         store.add(worker2);
         Report engine = new ReportXML(store, parser);
-        String expect = String.format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                        + System.lineSeparator() + "<employees>" + System.lineSeparator()
-                        + "\t<employee>" + System.lineSeparator()
-                        + "\t\t<name>%s</name>" + System.lineSeparator()
-                        + "\t\t<hired>%s</hired>" + System.lineSeparator()
-                        + "\t\t<fired>%s</fired>" + System.lineSeparator()
-                        + "\t\t<salary>%s</salary>" + System.lineSeparator()
-                        + "\t</employee>" + System.lineSeparator()
-                        + "\t<employee>" + System.lineSeparator()
-                        + "\t\t<name>%s</name>" + System.lineSeparator()
-                        + "\t\t<hired>%s</hired>" + System.lineSeparator()
-                        + "\t\t<fired>%s</fired>" + System.lineSeparator()
-                        + "\t\t<salary>%s</salary>" + System.lineSeparator()
-                        + "\t</employee>" + System.lineSeparator() + "</employees>",
+        String expect = String.format("""
+                        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                        <employees>
+                            <employee>
+                                <name>%s</name>
+                                <hired>%s</hired>
+                                <fired>%s</fired>
+                                <salary>%s</salary>
+                            </employee>
+                            <employee>
+                                <name>%s</name>
+                                <hired>%s</hired>
+                                <fired>%s</fired>
+                                <salary>%s</salary>
+                            </employee>
+                        </employees>
+                        """,
                 worker1.getName(), parser.parse(worker1.getHired()), parser.parse(worker1.getFired()), worker1.getSalary(),
                 worker2.getName(), parser.parse(worker2.getHired()), parser.parse(worker2.getFired()), worker2.getSalary());
         assertThat(engine.generate(em -> true)).isEqualTo(expect);
