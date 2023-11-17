@@ -1,6 +1,7 @@
 package ru.job4j.ood.srp.report;
 
 import org.junit.jupiter.api.Test;
+import ru.job4j.ood.srp.formatter.DateAdapterJSON;
 import ru.job4j.ood.srp.formatter.DateTimeParser;
 import ru.job4j.ood.srp.formatter.ReportDateTimeParser;
 import ru.job4j.ood.srp.model.Employee;
@@ -19,20 +20,25 @@ public class ReportJSONTest {
         Employee worker1 = new Employee("AAA", now, now, 200);
         Employee worker2 = new Employee("BBB", now, now, 100);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
+        DateAdapterJSON parserJSON = new DateAdapterJSON();
         store.add(worker1);
         store.add(worker2);
-        Report engine = new ReportJSON(store, parser);
-        String expect = String.format("[" + System.lineSeparator() + "\t{" + System.lineSeparator()
-                        + "\t\t\"name\": \"%s\"," + System.lineSeparator()
-                        + "\t\t\"hired\": \"%s\"," + System.lineSeparator()
-                        + "\t\t\"fired\": \"%s\"," + System.lineSeparator()
-                        + "\t\t\"salary\": %s" + System.lineSeparator() + "\t}," + System.lineSeparator()
-                        + "\t{" + System.lineSeparator()
-                        + "\t\t\"name\": \"%s\"," + System.lineSeparator()
-                        + "\t\t\"hired\": \"%s\"," + System.lineSeparator()
-                        + "\t\t\"fired\": \"%s\"," + System.lineSeparator()
-                        + "\t\t\"salary\": %s" + System.lineSeparator()
-                        + "\t}" + System.lineSeparator() + "]",
+        ReportJSON engine = new ReportJSON(store, parserJSON);
+        String expect = String.format("""
+                        [
+                          {
+                            "name": "%s",
+                            "hired": "%s",
+                            "fired": "%s",
+                            "salary": %s
+                          },
+                          {
+                            "name": "%s",
+                            "hired": "%s",
+                            "fired": "%s",
+                            "salary": %s
+                          }
+                        ]""",
                 worker1.getName(), parser.parse(worker1.getHired()), parser.parse(worker1.getFired()), worker1.getSalary(),
                 worker2.getName(), parser.parse(worker2.getHired()), parser.parse(worker2.getFired()), worker2.getSalary());
         assertThat(engine.generate(em -> true)).isEqualTo(expect);
