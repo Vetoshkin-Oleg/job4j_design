@@ -1,6 +1,6 @@
-package ru.job4j.lsp.productstorage.store;
+package ru.job4j.ood.lsp.productstorage.store;
 
-import ru.job4j.lsp.productstorage.food.Food;
+import ru.job4j.ood.lsp.productstorage.food.Food;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,5 +21,13 @@ public abstract class AbstractStore implements Store {
     @Override
     public boolean remove(Food food) {
         return foodList.remove(food);
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+    public List<Food> getFoodList() {
+        return foodList;
     }
 }
