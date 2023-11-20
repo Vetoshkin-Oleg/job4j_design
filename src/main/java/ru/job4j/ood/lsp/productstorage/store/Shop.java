@@ -11,21 +11,15 @@ public class Shop extends AbstractStore {
     }
 
     public boolean add(Food food) {
-        boolean rsl = false;
-        if (super.add(food)) {
-            System.out.println("Товар добавлен в Shop");
-            rsl = true;
-        }
-        return rsl;
+        System.out.println("Товар добавлен в Shop");
+        foodList.add(food);
+        return true;
     }
 
     public boolean remove(Food food) {
-        boolean rsl = false;
-        if (super.remove(food)) {
-            System.out.println("Товар удален из Shop");
-            rsl = true;
-        }
-        return rsl;
+        System.out.println("Товар удален из Shop");
+        foodList.remove(food);
+        return true;
     }
 
     @Override

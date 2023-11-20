@@ -5,12 +5,9 @@ import ru.job4j.ood.lsp.productstorage.food.Food;
 import ru.job4j.ood.lsp.productstorage.food.Milk;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ShopTest {
 
@@ -22,8 +19,13 @@ class ShopTest {
         AbstractStore shop = new Shop(milk);
         System.out.println(createDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         System.out.println(expiryDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-        System.out.println(ChronoUnit.DAYS.between(createDate, expiryDate));
+
+        shop.foodList.add(milk);
+        System.out.println(shop.foodList);
+        System.out.println(shop.foodList.size());
         assertThat(shop.add(milk)).isTrue();
+        assertThat(shop.foodList.size() == 1);
+        System.out.println(shop.foodList.size());
     }
 
     @Test

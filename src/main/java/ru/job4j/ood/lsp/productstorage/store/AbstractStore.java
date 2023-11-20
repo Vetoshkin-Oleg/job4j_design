@@ -15,12 +15,14 @@ public abstract class AbstractStore implements Store {
 
     @Override
     public boolean add(Food food) {
-        return foodList.add(food);
+        foodList.add(food);
+        return true;
     }
 
     @Override
     public boolean remove(Food food) {
-        return foodList.remove(food);
+        foodList.remove(food);
+        return true;
     }
 
     public Food getFood() {
