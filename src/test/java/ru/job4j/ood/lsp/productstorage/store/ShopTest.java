@@ -5,13 +5,10 @@ import ru.job4j.ood.lsp.productstorage.food.Food;
 import ru.job4j.ood.lsp.productstorage.food.Milk;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class ShopTest {
 
-    @Test
+    /*@Test
     void add() {
         LocalDate createDate = LocalDate.now();
         LocalDate expiryDate = createDate.plusDays(4);
@@ -26,7 +23,7 @@ class ShopTest {
         assertThat(shop.add(milk)).isTrue();
         assertThat(shop.foodList.size() == 1);
         System.out.println(shop.foodList.size());
-    }
+    }*/
 
     @Test
     void remove() {

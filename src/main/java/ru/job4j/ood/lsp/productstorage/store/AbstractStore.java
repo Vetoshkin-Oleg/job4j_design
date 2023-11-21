@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractStore implements Store {
-    private final Food food;
     List<Food> foodList = new ArrayList<>();
-
-    public AbstractStore(Food food) {
-        this.food = food;
-    }
+    private List<Store> stores;
 
     @Override
     public boolean add(Food food) {
@@ -25,11 +21,33 @@ public abstract class AbstractStore implements Store {
         return true;
     }
 
-    public Food getFood() {
-        return food;
-    }
-
     public List<Food> getFoodList() {
         return foodList;
+    }
+
+    public void setFoodList(List<Food> foodList) {
+        this.foodList = foodList;
+    }
+
+    @Override
+    public void addByName(String nameStore, Food food) {
+        System.out.println(nameStore);
+        switch (nameStore) {
+            case ("Trash") -> {
+                Trash trash = new Trash();
+                trash.add(food);
+            }
+            case ("Shop") -> {
+                Shop shop = new Shop();
+                shop.add(food);
+            }
+            case ("Warehouse") -> {
+                Warehouse warehouse = new Warehouse();
+                warehouse.add(food);
+            }
+            default -> {
+                System.out.println("Ошибка в имени хранилища");
+            }
+        }
     }
 }

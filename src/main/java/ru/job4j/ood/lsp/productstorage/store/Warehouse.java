@@ -3,12 +3,7 @@ package ru.job4j.ood.lsp.productstorage.store;
 import ru.job4j.ood.lsp.productstorage.food.Food;
 
 public class Warehouse extends AbstractStore {
-    private final Food food;
-
-    public Warehouse(Food food) {
-        super(food);
-        this.food = food;
-    }
+    private Food food;
 
     public boolean add(Food food) {
         System.out.println("Товар добавлен в Warehouse");
@@ -20,6 +15,14 @@ public class Warehouse extends AbstractStore {
         System.out.println("Товар удален из Warehouse");
         foodList.remove(food);
         return true;
+    }
+
+    public double getLowerLimit() {
+        return 0.75;
+    }
+
+    public double getUpperLimit() {
+        return 1.00;
     }
 
     @Override
