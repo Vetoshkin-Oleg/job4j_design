@@ -7,9 +7,5 @@ public interface Store {
 
     boolean remove(Food food);
 
-    double getLowerLimit();
-
-    double getUpperLimit();
-
-    void addByName(String nameStore, Food food);
+    boolean checkRemaining(Food food);
 }

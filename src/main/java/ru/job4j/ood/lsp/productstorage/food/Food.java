@@ -8,6 +8,7 @@ public abstract class Food {
     private LocalDate createDate;
     private double price;
     private double discount;
+    private long remainingTime;
 
     public Food(String name, LocalDate expiryDate, LocalDate createDate, double price, double discount) {
         this.name = name;
@@ -55,6 +56,14 @@ public abstract class Food {
 
     public void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public long getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(long remainingTime) {
+        this.remainingTime = remainingTime;
     }
 
     @Override

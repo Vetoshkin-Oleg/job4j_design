@@ -2,27 +2,23 @@ package ru.job4j.ood.lsp.productstorage.store;
 
 import ru.job4j.ood.lsp.productstorage.food.Food;
 
+import java.time.temporal.ChronoUnit;
+
 public class Shop extends AbstractStore {
     private Food food;
 
-    public boolean add(Food food) {
-        System.out.println("Товар добавлен в Shop");
-        foodList.add(food);
-        return true;
-    }
-
-    public boolean remove(Food food) {
-        System.out.println("Товар удален из Shop");
-        foodList.remove(food);
-        return true;
-    }
-
-    public double getLowerLimit() {
-        return 0.25;
-    }
-
-    public double getUpperLimit() {
-        return 0.75;
+    @Override
+    public boolean checkRemaining(Food food) {
+        boolean result = false;
+        long totalShelfLife = ChronoUnit.DAYS.between(food.getCreateDate(), food.getExpiryDate());
+        double ratioRemainderAndTotalTime = (double) food.getRemainingTime() / totalShelfLife;
+        if (ratioRemainderAndTotalTime >= 0.25 && ratioRemainderAndTotalTime <= 0.75) {
+            result = true;
+        } else if (ratioRemainderAndTotalTime > 0 && ratioRemainderAndTotalTime < 0.25) {
+            food.setPrice(food.getPrice() * 0.8);
+            result = true;
+        }
+        return result;
     }
 
     @Override
