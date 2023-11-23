@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 class ControlQualityTest {
 
     @Test
@@ -21,7 +23,8 @@ class ControlQualityTest {
         Store warehouse = new Warehouse();
         Store trash = new Trash();
         List<Store> store = Arrays.asList(shop, warehouse, trash);
-        ControlQuality controlQuality = new ControlQuality(store, milk, currentDate);
-        controlQuality.distributionOfProducts();
+        ControlQuality controlQuality = new ControlQuality(milk, currentDate);
+        controlQuality.distributionOfProducts(store);
+        assertThat(milk.getRemainingTime()).isEqualTo(1L);
     }
 }

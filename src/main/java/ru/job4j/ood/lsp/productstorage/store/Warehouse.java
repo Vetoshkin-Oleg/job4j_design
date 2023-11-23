@@ -8,6 +8,12 @@ public class Warehouse extends AbstractStore {
     private Food food;
 
     @Override
+    public boolean add(Food food) {
+        System.out.println("Попытка добавления в Warehouse");
+        return super.add(food);
+    }
+
+    @Override
     public boolean checkRemaining(Food food) {
         long totalShelfLife = ChronoUnit.DAYS.between(food.getCreateDate(), food.getExpiryDate());
         return (double) food.getRemainingTime() / totalShelfLife > 0.75;
