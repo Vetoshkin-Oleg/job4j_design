@@ -15,14 +15,14 @@ class ParkingLotTest {
     void takePlaceWhenParkingIsFree() {
         ParkingLot parkingLot = new ParkingLot(3, 5);
         Transport truck = new Truck("truck", 2.73);
-        Transport car = new Car("car", 1);
         assertThat(parkingLot.takePlace(truck)).isTrue();
-        assertThat(parkingLot.takePlace(car)).isTrue();
         assertThat(parkingLot.getTruckCapacity()[0]).isEqualTo(1);
         assertThat(parkingLot.getTruckCapacity()[1]).isEqualTo(1);
         assertThat(parkingLot.getTruckCapacity()[2]).isEqualTo(0.73);
         assertThat(parkingLot.getTruckCapacity()[3]).isEqualTo(0);
         assertThat(parkingLot.getTruckCapacity()[4]).isEqualTo(0);
+        Transport car = new Car("car", 1);
+        assertThat(parkingLot.takePlace(car)).isTrue();
         assertThat(parkingLot.getCarCapacity()[0]).isEqualTo(1);
         assertThat(parkingLot.getCarCapacity()[1]).isEqualTo(0);
         assertThat(parkingLot.getCarCapacity()[2]).isEqualTo(0);
@@ -81,7 +81,8 @@ class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot(7, 9);
         Transport car = new Car("car", 1);
         Arrays.fill(parkingLot.getCarCapacity(), 1);
-        parkingLot.getCarCapacity()[2] = 0.500000000000000000000000000000000000000000000000000000000000000001;
+        parkingLot.getCarCapacity()[2] = 0.500000000000001;
+        /*parkingLot.getCarCapacity()[2] = 0.500000000000000000000000000000000000000000000000000000000000000001;*/
         parkingLot.getCarCapacity()[3] = 0.5;
         assertThat(parkingLot.takePlace(car)).isFalse();
     }
@@ -91,8 +92,10 @@ class ParkingLotTest {
         ParkingLot parkingLot = new ParkingLot(7, 9);
         Transport car = new Car("car", 1);
         Arrays.fill(parkingLot.getCarCapacity(), 1);
-        parkingLot.getCarCapacity()[2] = 0.000000000000000000000000000000000000000000000000000000000000000001;
-        parkingLot.getCarCapacity()[5] = 0.000000000000000000000000000000000000000000000000000000000000000001;
+        parkingLot.getCarCapacity()[2] = 0.000000000000001;
+        /*parkingLot.getCarCapacity()[2] = 0.000000000000000000000000000000000000000000000000000000000000000001;*/
+        /*parkingLot.getCarCapacity()[5] = 0.000000000000000000000000000000000000000000000000000000000000000001;*/
+        parkingLot.getCarCapacity()[5] = 0.000000000000001;
         assertThat(parkingLot.takePlace(car)).isFalse();
     }
 
