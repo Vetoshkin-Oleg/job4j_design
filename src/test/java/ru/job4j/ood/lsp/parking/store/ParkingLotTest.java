@@ -93,8 +93,8 @@ class ParkingLotTest {
         Transport car = new Car("car", 1);
         Arrays.fill(parkingLot.getCarCapacity(), 1);
         parkingLot.getCarCapacity()[2] = 0.000000000000001;
-        /*parkingLot.getCarCapacity()[2] = 0.000000000000000000000000000000000000000000000000000000000000000001;*/
-        /*parkingLot.getCarCapacity()[5] = 0.000000000000000000000000000000000000000000000000000000000000000001;*/
+        /*parkingLot.getCarCapacity()[2] = 0.000000000000000000000000000000000000000000000000000000000000000001;
+        parkingLot.getCarCapacity()[5] = 0.000000000000000000000000000000000000000000000000000000000000000001;*/
         parkingLot.getCarCapacity()[5] = 0.000000000000001;
         assertThat(parkingLot.takePlace(car)).isFalse();
     }

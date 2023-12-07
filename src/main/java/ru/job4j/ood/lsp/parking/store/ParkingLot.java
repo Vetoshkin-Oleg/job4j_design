@@ -3,12 +3,15 @@ package ru.job4j.ood.lsp.parking.store;
 import ru.job4j.ood.lsp.parking.transport.Transport;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ParkingLot implements ManageParking {
-    private double[] carCapacity;
-    private double[] truckCapacity;
-
+    private final double[] carCapacity;
+    private final double[] truckCapacity;
     private boolean flag = false;
+    private Map<Integer, Double> carsFill = new HashMap<>();
+    private Map<String, Map<Integer, Double>> mapCars = new HashMap<>();
 
     public ParkingLot(double carSpots, double trackSpots) {
         carCapacity = new double[(int) carSpots];
@@ -99,6 +102,8 @@ public class ParkingLot implements ManageParking {
 
     @Override
     public boolean freePlace(Transport transport) {
+        System.out.println(carCapacity[0]);
+        System.out.println(carCapacity[1]);
         return false;
     }
 
