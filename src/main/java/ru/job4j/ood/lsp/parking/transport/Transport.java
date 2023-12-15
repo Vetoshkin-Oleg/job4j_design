@@ -1,8 +1,14 @@
 package ru.job4j.ood.lsp.parking.transport;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Transport {
     private final String name;
     private final double width;
+
+    private final Map<Integer, Double> spotsRecords = new HashMap<>();
+    private final Map<String, Map<Integer, Double>> carsRecords = new HashMap<>();
 
     public Transport(String name, double width) {
         this.name = name;
@@ -17,9 +23,19 @@ public abstract class Transport {
         return width;
     }
 
-    public String getType() {
-        String result = this.getClass().getName();
-        result = result.substring(result.lastIndexOf(".") + 1);
-        return result;
+    public Map<Integer, Double> getSpotsRecords() {
+        return spotsRecords;
+    }
+
+    public void setSpotsRecords(int spotNumber, double spotValue) {
+        spotsRecords.put(spotNumber, spotValue);
+    }
+
+    public Map<String, Map<Integer, Double>> getCarsRecords() {
+        return carsRecords;
+    }
+
+    public void setCarsRecords(String name) {
+        carsRecords.put(name, this.getSpotsRecords());
     }
 }

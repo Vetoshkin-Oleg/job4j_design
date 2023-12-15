@@ -6,6 +6,4 @@ public interface ManageParking {
     boolean takePlace(Transport transport);
 
     boolean freePlace(Transport transport);
-
-    String parkCar(Transport transport);
 }

@@ -3,30 +3,26 @@ package ru.job4j.ood.lsp.parking.store;
 import ru.job4j.ood.lsp.parking.transport.Transport;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ParkingLot implements ManageParking {
     private final double[] carCapacity;
     private final double[] truckCapacity;
     private boolean flag = false;
-    private Map<Integer, Double> carsFill = new HashMap<>();
-    private Map<String, Map<Integer, Double>> mapCars = new HashMap<>();
 
-    public ParkingLot(double carSpots, double trackSpots) {
+    public ParkingLot(double carSpots, double truckSpots) {
         carCapacity = new double[(int) carSpots];
-        truckCapacity = new double[(int) trackSpots];
+        truckCapacity = new double[(int) truckSpots];
     }
 
     @Override
     public boolean takePlace(Transport transport) {
         boolean result = false;
         if (!checkParking(transport)) {
-            return result;
+            return false;
         }
-        if ("Car".equals(determineType(transport))) {
+        if (transport.getWidth() == 1) {
             result = fillAttempt(transport, carCapacity);
-        } else if ("Truck".equals(determineType(transport))) {
+        } else if (transport.getWidth() > 1) {
             result = fillAttempt(transport, truckCapacity);
             if (!result) {
                 result = fillAttempt(transport, carCapacity);
@@ -39,19 +35,10 @@ public class ParkingLot implements ManageParking {
         return Arrays.stream(parkingCapacity).sum();
     }
 
-    private String determineType(Transport transport) {
-        if ("Car".equals(transport.getType())) {
-            return "Car";
-        } else if ("Truck".equals(transport.getType())) {
-            return "Truck";
-        }
-        return "Error";
-    }
-
     private boolean checkParking(Transport transport) {
-        if ("Car".equals(determineType(transport))) {
+        if (transport.getWidth() == 1) {
             return currentValueSpots(carCapacity) + transport.getWidth() <= carCapacity.length;
-        } else if ("Truck".equals(determineType(transport))) {
+        } else if (transport.getWidth() > 1) {
             double currentSpots = currentValueSpots(carCapacity) + currentValueSpots(truckCapacity);
             return currentSpots + transport.getWidth() <= (carCapacity.length + truckCapacity.length);
         }
@@ -102,14 +89,22 @@ public class ParkingLot implements ManageParking {
 
     @Override
     public boolean freePlace(Transport transport) {
-        System.out.println(carCapacity[0]);
-        System.out.println(carCapacity[1]);
-        return false;
-    }
-
-    @Override
-    public String parkCar(Transport transport) {
-        return null;
+        boolean result;
+        if (transport.getCarsRecords().containsKey(transport.getName())) {
+            if (CarsRecords.getCarsRecords().get(transport.getName()).toString().startsWith("CAR")) {
+                for (Integer i : transport.getSpotsRecords().keySet()) {
+                    carCapacity[i] = carCapacity[i] - transport.getSpotsRecords().get(i);
+                }
+            } else if (CarsRecords.getCarsRecords().get(transport.getName()).toString().startsWith("TRUCK")) {
+                for (Integer i : transport.getSpotsRecords().keySet()) {
+                    truckCapacity[i] = truckCapacity[i] - transport.getSpotsRecords().get(i);
+                }
+            }
+            result = true;
+        } else {
+            return false;
+        }
+        return result;
     }
 
     public double[] getCarCapacity() {
