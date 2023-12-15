@@ -9,13 +9,13 @@ public class CarsRecords {
         TRUCK_PARKING
     }
 
-    private static final Map<String, TypeParking> carsRecords = new HashMap<>();
+    private static final Map<String, TypeParking> CARSRECORDS = new HashMap<>();
 
     public static Map<String, TypeParking> getCarsRecords() {
-        return carsRecords;
+        return CARSRECORDS;
     }
 
     public static void setCarsRecords(String name, TypeParking typeParking) {
-        CarsRecords.carsRecords.put(name, typeParking);
+        CarsRecords.CARSRECORDS.put(name, typeParking);
     }
 }
